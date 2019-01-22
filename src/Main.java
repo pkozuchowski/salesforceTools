@@ -1,8 +1,6 @@
 import sfdc.profiles.Profile;
 import sfdc.profiles.profileNodes.*;
 
-import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) {
         String profileDirectory = "C:\\Users\\piotr\\IdeaProjects\\goodenergy\\force-app\\main\\default\\profiles\\";
