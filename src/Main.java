@@ -1,28 +1,30 @@
-import sfdc.profiles.*;
+import sfdc.profiles.Profile;
+import sfdc.profiles.profileNodes.*;
 
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        String[] profiles = new String[]{
-                "Admin.profile-meta.xml",
-                "Business Intelligence User.profile-meta.xml",
-                "Customer Operations.profile-meta.xml",
-                "Customer Operations %28Quoting%29.profile-meta.xml",
-                "Customer Service.profile-meta.xml",
-                "DST Sales.profile-meta.xml",
-                "Energy Solution Sales.profile-meta.xml",
-                "Enterprise Sales.profile-meta.xml",
-                "Integration User.profile-meta.xml",
-                "MarketingProfile.profile-meta.xml",
-                "PolSource Admin.profile-meta.xml",
-                "ReadOnly.profile-meta.xml",
-                "SME Sales.profile-meta.xml"
+    public static void main(String[] args) {
+        String profileDirectory = "C:\\Users\\piotr\\IdeaProjects\\goodenergy\\force-app\\main\\default\\profiles\\";
+        String[] profilePaths = new String[]{
+                profileDirectory + "Admin.profile-meta.xml",
+                profileDirectory + "Business Intelligence User.profile-meta.xml",
+                profileDirectory + "Customer Operations.profile-meta.xml",
+                profileDirectory + "Customer Operations %28Quoting%29.profile-meta.xml",
+                profileDirectory + "Customer Service.profile-meta.xml",
+                profileDirectory + "DST Sales.profile-meta.xml",
+                profileDirectory + "Energy Solution Sales.profile-meta.xml",
+                profileDirectory + "Enterprise Sales.profile-meta.xml",
+                profileDirectory + "Integration User.profile-meta.xml",
+                profileDirectory + "MarketingProfile.profile-meta.xml",
+                profileDirectory + "PolSource Admin.profile-meta.xml",
+                profileDirectory + "ReadOnly.profile-meta.xml",
+                profileDirectory + "SME Sales.profile-meta.xml"
         };
 
-        for (String profileName : profiles) {
-            Profile profile = new Profile("C:\\Users\\piotr\\IdeaProjects\\goodenergy\\force-app\\main\\default\\profiles\\" + profileName);
-//            profile.add(new FieldPermission("Meter_Point__c.Generator_ROC_ID__c", false, false));
+        for (String profilePath : profilePaths) {
+            Profile profile = new Profile(profilePath);
+            profile.add(new FieldPermission("Meter_Point__c.Generator_ROC_ID__c", false, false));
             profile.saveFile();
         }
     }

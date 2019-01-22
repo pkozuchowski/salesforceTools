@@ -1,12 +1,10 @@
 package sfdc.profiles;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import sfdc.profiles.profileNodes.*;
+import sfdc.profiles.profileNodes.ElementBuilder;
+import sfdc.profiles.profileNodes.ProfileNode;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,33 +24,25 @@ public class Profile {
     private Set<ProfileNode> profileNodes = new HashSet<>();
 
     public Profile(String path) {
-        try {
-            this.path = path;
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = builder.parse(new File(path));
-            parse(document);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        this.path = path;
+        parseFile();
     }
 
-    private void parse(Document document) {
-        NodeList childNodes = document.getDocumentElement().getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            ProfileNode profileNode = ProfileNode.newInstance(childNodes.item(i));
-
-            if (profileNode != null) {
-                this.profileNodes.add(profileNode);
-            }
-        }
-    }
-
+    /**
+     * Adds or replaces existing permission node in the Profile xml.
+     *
+     * @param node - Concrete instance of ProfileNode, which may be ex. FieldPermission node.
+     */
     public void add(ProfileNode node) {
         this.profileNodes.remove(node);
         this.profileNodes.add(node);
     }
 
+    /**
+     * Removes existing permission node in the Profile xml.
+     *
+     * @param node - Concrete instance of ProfileNode, which may be ex. FieldPermission node.
+     */
     public void remove(ProfileNode node) {
         this.profileNodes.remove(node);
     }
@@ -77,7 +67,6 @@ public class Profile {
 
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//            transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
@@ -87,6 +76,25 @@ public class Profile {
             );
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void parseFile() {
+        try {
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document document = builder.parse(new File(path));
+
+            NodeList childNodes = document.getDocumentElement().getChildNodes();
+
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                ProfileNode profileNode = ProfileNode.newInstance(childNodes.item(i));
+
+                if (profileNode != null) {
+                    this.profileNodes.add(profileNode);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

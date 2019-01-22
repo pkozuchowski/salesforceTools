@@ -1,6 +1,5 @@
 package sfdc.profiles.profileNodes;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -19,7 +18,7 @@ public class ElementBuilder {
 
     public ElementBuilder addChild(String name, Object value) {
         Element child = document.createElement(name);
-        String textContent = StringEscapeUtils.escapeXml11("" + value).trim();
+        String textContent = ("" + value).trim();
         child.setTextContent(textContent);
 
         element.appendChild(child);
@@ -27,7 +26,7 @@ public class ElementBuilder {
     }
 
     public ElementBuilder setTextContent(Object value) {
-        String textContent = StringEscapeUtils.escapeXml11("" + value).trim();
+        String textContent = ("" + value).trim();
         element.setTextContent(textContent);
         return this;
     }
