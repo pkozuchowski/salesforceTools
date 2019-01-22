@@ -4,9 +4,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class TabVisibility extends ProfileNode {
     private String tab;
     private String visibility;
+
+    protected TabVisibility() {
+    }
 
     public TabVisibility(String tab) {
         this(tab, Visibility.Hidden);
@@ -17,21 +22,10 @@ public class TabVisibility extends ProfileNode {
         this.visibility = visibility.name();
     }
 
-    public TabVisibility(Node node) {
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "tab") {
-                this.tab = value;
-
-            } else if (name == "visibility") {
-                this.visibility = value;
-            }
-        }
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.tab = nodeValues.get("tab");
+        this.visibility = nodeValues.get("visibility");
     }
 
     @Override

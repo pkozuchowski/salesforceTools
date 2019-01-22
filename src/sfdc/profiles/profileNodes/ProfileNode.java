@@ -2,6 +2,10 @@ package sfdc.profiles.profileNodes;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class ProfileNode implements Comparable<ProfileNode> {
 
@@ -16,6 +20,7 @@ public abstract class ProfileNode implements Comparable<ProfileNode> {
 
 
     public abstract Element getElement(ElementBuilder builder);
+    protected abstract void initialize(Map<String, String> nodeValues);
     protected abstract String getNodeName();
     protected abstract String getMetadataName();
 
@@ -37,19 +42,41 @@ public abstract class ProfileNode implements Comparable<ProfileNode> {
     public static ProfileNode newInstance(Node node) {
         String name = node.getNodeName();
 
-        if (name == "fieldPermissions") return new FieldPermission(node);
-        if (name == "classAccesses") return new ClassAccess(node);
-        if (name == "applicationVisibilities") return new ApplicationVisibility(node);
-        if (name == "layoutAssignments") return new LayoutAssignment(node);
-        if (name == "objectPermissions") return new ObjectPermission(node);
-        if (name == "pageAccesses") return new PageAccess(node);
-        if (name == "recordTypeVisibilities") return new RecordTypeVisibility(node);
-        if (name == "tabVisibilities") return new TabVisibility(node);
-        if (name == "userLicense") return new UserLicense(node);
-        if (name == "userPermissions") return new UserPermission(node);
-        if (name == "custom") return new Custom(node);
-        if (name == "description") return new Description(node);
+        ProfileNode profileNode = null;
+        if (name == "fieldPermissions") profileNode = new FieldPermission();
+        if (name == "classAccesses") profileNode = new ClassAccess();
+        if (name == "applicationVisibilities") profileNode = new ApplicationVisibility();
+        if (name == "layoutAssignments") profileNode = new LayoutAssignment();
+        if (name == "objectPermissions") profileNode = new ObjectPermission();
+        if (name == "pageAccesses") profileNode = new PageAccess();
+        if (name == "recordTypeVisibilities") profileNode = new RecordTypeVisibility();
+        if (name == "tabVisibilities") profileNode = new TabVisibility();
+        if (name == "userLicense") profileNode = new UserLicense();
+        if (name == "userPermissions") profileNode = new UserPermission();
+        if (name == "custom") profileNode = new Custom();
+        if (name == "description") profileNode = new Description();
 
-        return null;
+        if (profileNode != null) {
+            profileNode.initialize(getNodeValues(node));
+        }
+
+        return profileNode;
+    }
+
+    private static Map<String, String> getNodeValues(Node node) {
+        NodeList childNodes = node.getChildNodes();
+
+        Map<String, String> values = new HashMap<>();
+        values.put("textContent", node.getTextContent());
+
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node childNode = childNodes.item(i);
+            String name = childNode.getNodeName(),
+                    value = childNode.getTextContent();
+
+            values.put(name, value);
+        }
+
+        return values;
     }
 }

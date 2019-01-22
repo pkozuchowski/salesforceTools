@@ -3,15 +3,21 @@ package sfdc.profiles.profileNodes;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.util.Map;
+
 public class Description extends ProfileNode {
     private String value;
+
+    protected Description() {
+    }
 
     public Description(String value) {
         this.value = value;
     }
 
-    public Description(Node node) {
-        this.value = node.getTextContent();
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.value = nodeValues.get("textContent");
     }
 
     @Override

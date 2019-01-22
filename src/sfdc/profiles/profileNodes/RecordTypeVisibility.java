@@ -4,11 +4,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class RecordTypeVisibility extends ProfileNode {
     private String recordType;
     private Boolean
             isDefault,
             visible;
+
+    protected RecordTypeVisibility() {
+    }
 
     public RecordTypeVisibility(String recordType) {
         this(recordType, false, false);
@@ -20,24 +25,11 @@ public class RecordTypeVisibility extends ProfileNode {
         this.visible = visible;
     }
 
-    public RecordTypeVisibility(Node node) {
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "recordType") {
-                this.recordType = value;
-
-            } else if (name == "default") {
-                this.isDefault = Boolean.valueOf(value);
-
-            } else if (name == "visible") {
-                this.visible = Boolean.valueOf(value);
-            }
-        }
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.recordType = nodeValues.get("recordType");
+        this.isDefault = Boolean.valueOf(nodeValues.get("default"));
+        this.visible = Boolean.valueOf(nodeValues.get("visible"));
     }
 
     @Override

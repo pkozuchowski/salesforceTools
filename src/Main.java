@@ -24,7 +24,7 @@ public class Main {
 
         for (String profilePath : profilePaths) {
             Profile profile = new Profile(profilePath);
-            profile.add(new FieldPermission("Meter_Point__c.Generator_ROC_ID__c", false, false));
+            profile.remove(new FieldPermission("Meter_Point__c.Generator_ROC_ID__c"));
             profile.saveFile();
         }
     }

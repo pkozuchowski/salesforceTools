@@ -4,9 +4,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class UserPermission extends ProfileNode {
     private String name;
     private Boolean enabled;
+
+    protected UserPermission() {
+    }
 
     public UserPermission(String name) {
         this(name, false);
@@ -17,21 +22,10 @@ public class UserPermission extends ProfileNode {
         this.enabled = enabled;
     }
 
-    public UserPermission(Node node) {
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "name") {
-                this.name = value;
-
-            } else if (name == "enabled") {
-                this.enabled = Boolean.valueOf(value);
-            }
-        }
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.name = nodeValues.get("name");
+        this.enabled = Boolean.valueOf(nodeValues.get("enabled"));
     }
 
     @Override

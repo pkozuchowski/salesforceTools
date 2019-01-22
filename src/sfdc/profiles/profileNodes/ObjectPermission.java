@@ -4,6 +4,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class ObjectPermission extends ProfileNode {
     private Boolean
             allowCreate,
@@ -14,6 +16,8 @@ public class ObjectPermission extends ProfileNode {
             viewAllRecords;
     private String sObject;
 
+    protected ObjectPermission() {
+    }
 
     public ObjectPermission(String sObject) {
         this(sObject, false, false, false, false, false, false);
@@ -29,30 +33,15 @@ public class ObjectPermission extends ProfileNode {
         this.sObject = sObject;
     }
 
-    public ObjectPermission(Node node) {
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "allowCreate") {
-                this.allowCreate = Boolean.valueOf(value);
-            } else if (name == "allowDelete") {
-                this.allowDelete = Boolean.valueOf(value);
-            } else if (name == "allowEdit") {
-                this.allowEdit = Boolean.valueOf(value);
-            } else if (name == "allowRead") {
-                this.allowRead = Boolean.valueOf(value);
-            } else if (name == "modifyAllRecords") {
-                this.modifyAllRecords = Boolean.valueOf(value);
-            } else if (name == "viewAllRecords") {
-                this.viewAllRecords = Boolean.valueOf(value);
-            } else if (name == "object") {
-                this.sObject = value;
-            }
-        }
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.sObject = nodeValues.get("object");
+        this.allowCreate = Boolean.valueOf(nodeValues.get("allowCreate"));
+        this.allowDelete = Boolean.valueOf(nodeValues.get("allowDelete"));
+        this.allowEdit = Boolean.valueOf(nodeValues.get("allowEdit"));
+        this.allowRead = Boolean.valueOf(nodeValues.get("allowRead"));
+        this.modifyAllRecords = Boolean.valueOf(nodeValues.get("modifyAllRecords"));
+        this.viewAllRecords = Boolean.valueOf(nodeValues.get("viewAllRecords"));
     }
 
     @Override

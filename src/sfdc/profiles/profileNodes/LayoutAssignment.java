@@ -4,35 +4,24 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class LayoutAssignment extends ProfileNode {
     private String sObject;
     private String layout;
     private String recordType;
 
+    protected LayoutAssignment() {
+    }
+
     public LayoutAssignment(String layout) {
         this.layout = layout;
     }
 
-    public LayoutAssignment(Node node) {
-        this.sObject = "";
-        this.layout = "";
-        this.recordType = "";
-
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "layout") {
-                this.layout = value;
-
-            } else if (name == "recordType") {
-                this.recordType = value;
-            }
-        }
-
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.layout = nodeValues.get("layout");
+        this.recordType = nodeValues.get("recordType");
         this.sObject = this.layout.substring(0, this.layout.indexOf("-"));
     }
 

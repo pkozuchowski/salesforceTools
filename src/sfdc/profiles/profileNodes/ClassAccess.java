@@ -4,9 +4,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class ClassAccess extends ProfileNode {
     private String apexClass;
     private Boolean enabled;
+
+    protected ClassAccess() {
+    }
 
     public ClassAccess(String apexClass) {
         this(apexClass, false);
@@ -17,21 +22,10 @@ public class ClassAccess extends ProfileNode {
         this.enabled = enabled;
     }
 
-    public ClassAccess(Node node) {
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "enabled") {
-                this.enabled = Boolean.valueOf(value);
-
-            } else if (name == "apexClass") {
-                this.apexClass = value;
-            }
-        }
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.apexClass = nodeValues.get("apexClass");
+        this.enabled = Boolean.valueOf(nodeValues.get("enabled"));
     }
 
     @Override

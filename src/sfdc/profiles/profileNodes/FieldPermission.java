@@ -4,9 +4,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Map;
+
 public class FieldPermission extends ProfileNode {
     private Boolean editable, readable;
     private String field;
+
+    protected FieldPermission() {
+    }
 
     public FieldPermission(String field) {
         this(field, false, false);
@@ -18,24 +23,11 @@ public class FieldPermission extends ProfileNode {
         this.readable = readable;
     }
 
-    public FieldPermission(Node node) {
-        NodeList childNodes = node.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            String name = childNode.getNodeName(),
-                    value = childNode.getTextContent();
-
-            if (name == "editable") {
-                this.editable = Boolean.valueOf(value);
-
-            } else if (name == "readable") {
-                this.readable = Boolean.valueOf(value);
-
-            } else if (name == "field") {
-                this.field = value;
-            }
-        }
+    @Override
+    protected void initialize(Map<String, String> nodeValues) {
+        this.field = nodeValues.get("field");
+        this.editable = Boolean.valueOf(nodeValues.get("editable"));
+        this.readable = Boolean.valueOf(nodeValues.get("readable"));
     }
 
     @Override
