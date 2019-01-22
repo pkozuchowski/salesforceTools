@@ -5,6 +5,11 @@ import org.w3c.dom.Element;
 import java.util.Map;
 
 public class TabVisibility extends ProfileNode {
+    public final static String
+            DefaultOn = "DefaultOn",
+            DefaultOff = "DefaultOff",
+            Hidden = "Hidden";
+
     private String tab;
     private String visibility;
 
@@ -12,12 +17,12 @@ public class TabVisibility extends ProfileNode {
     }
 
     public TabVisibility(String tab) {
-        this(tab, Visibility.Hidden);
+        this(tab, Hidden);
     }
 
-    public TabVisibility(String tab, Visibility visibility) {
+    public TabVisibility(String tab, String visibility) {
         this.tab = tab;
-        this.visibility = visibility.name();
+        this.visibility = visibility;
     }
 
     @Override
@@ -42,11 +47,5 @@ public class TabVisibility extends ProfileNode {
     @Override
     protected String getMetadataName() {
         return tab;
-    }
-
-    public enum Visibility {
-        DefaultOn,
-        DefaultOff,
-        Hidden
     }
 }

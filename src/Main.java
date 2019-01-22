@@ -22,7 +22,11 @@ public class Main {
 
         for (String profilePath : profilePaths) {
             Profile profile = new Profile(profilePath);
+            profile.add(new FieldPermission("Meter_Point__c.Generator_ROC_ID__c", true, false));
+            profile.add(new ObjectPermission("Meter_Point__c", true, false, true, true, false, false));
+
             profile.remove(new FieldPermission("Meter_Point__c.Generator_ROC_ID__c"));
+            profile.add(new TabVisibility("Application_Log__c", TabVisibility.DefaultOn));
             profile.saveFile();
         }
     }
