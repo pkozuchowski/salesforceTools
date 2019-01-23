@@ -1,4 +1,4 @@
-# salesforceTools
+# Salesforce Tools
 Tools for programmatically managing Salesforce metadata (currently only Profiles).
 
     String profileDirectory = "...\\force-app\\main\\default\\profiles\\";
