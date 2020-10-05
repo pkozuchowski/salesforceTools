@@ -28,7 +28,7 @@ public class LayoutAssignment extends ProfileNode {
         builder.createElement(getNodeName())
                 .addChild("layout", layout);
 
-        if (recordType != "") {
+        if (recordType != "" && recordType != null) {
             builder.addChild("recordType", recordType);
         }
 
