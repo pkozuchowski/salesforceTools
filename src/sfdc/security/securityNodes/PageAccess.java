@@ -1,10 +1,10 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class PageAccess extends ProfileNode {
+public class PageAccess extends MetadataNode {
     private String apexPage;
     private Boolean enabled;
 
@@ -35,12 +35,12 @@ public class PageAccess extends ProfileNode {
     }
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "pageAccesses";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return apexPage;
     }
 }

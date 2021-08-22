@@ -1,4 +1,4 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

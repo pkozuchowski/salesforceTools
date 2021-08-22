@@ -1,10 +1,10 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class UserPermission extends ProfileNode {
+public class UserPermission extends MetadataNode {
     private String name;
     private Boolean enabled;
 
@@ -36,12 +36,12 @@ public class UserPermission extends ProfileNode {
 
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "userPermissions";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return name;
     }
 }

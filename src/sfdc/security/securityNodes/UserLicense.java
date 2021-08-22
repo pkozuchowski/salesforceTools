@@ -1,10 +1,10 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class UserLicense extends ProfileNode {
+public class UserLicense extends MetadataNode {
     private String license;
 
     protected UserLicense() {
@@ -27,12 +27,12 @@ public class UserLicense extends ProfileNode {
     }
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "userLicense";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return "";
     }
 }

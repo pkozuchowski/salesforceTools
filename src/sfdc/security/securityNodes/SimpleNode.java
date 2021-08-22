@@ -1,17 +1,15 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class Description extends ProfileNode {
+public class SimpleNode extends MetadataNode {
+    private String name;
     private String value;
 
-    protected Description() {
-    }
-
-    public Description(String value) {
-        this.value = value;
+    public SimpleNode(String name) {
+        this.name = name;
     }
 
     @Override
@@ -27,12 +25,12 @@ public class Description extends ProfileNode {
     }
 
     @Override
-    protected String getNodeName() {
-        return "description";
+    public String getNodeName() {
+        return name;
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return "";
     }
 }

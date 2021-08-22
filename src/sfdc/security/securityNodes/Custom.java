@@ -1,10 +1,10 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class Custom extends ProfileNode {
+public class Custom extends MetadataNode {
     private Boolean value;
 
     protected Custom() {
@@ -27,12 +27,12 @@ public class Custom extends ProfileNode {
     }
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "custom";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return "";
     }
 }

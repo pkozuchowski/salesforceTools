@@ -1,10 +1,10 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class ObjectPermission extends ProfileNode {
+public class ObjectPermission extends MetadataNode {
     private Boolean
             allowCreate,
             allowDelete,
@@ -56,12 +56,12 @@ public class ObjectPermission extends ProfileNode {
     }
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "objectPermissions";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return sObject;
     }
 }

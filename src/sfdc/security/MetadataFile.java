@@ -1,10 +1,10 @@
-package sfdc.profiles;
+package sfdc.security;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import sfdc.profiles.profileNodes.ElementBuilder;
-import sfdc.profiles.profileNodes.ProfileNode;
+import sfdc.security.securityNodes.ElementBuilder;
+import sfdc.security.securityNodes.MetadataNode;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,11 +19,11 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Profile {
-    private String path;
-    private Set<ProfileNode> profileNodes = new HashSet<>();
+public abstract class MetadataFile {
+    protected String            path;
+    protected Set<MetadataNode> metadataNodes = new HashSet<>();
 
-    public Profile(String path) {
+    public MetadataFile(String path) {
         this.path = path;
         parseFile();
     }
@@ -33,9 +33,25 @@ public class Profile {
      *
      * @param node - Concrete instance of ProfileNode, which may be ex. FieldPermission node.
      */
-    public void add(ProfileNode node) {
-        this.profileNodes.remove(node);
-        this.profileNodes.add(node);
+    public void add(MetadataNode node) {
+        this.metadataNodes.remove(node);
+        this.metadataNodes.add(node);
+    }
+
+    public Set<MetadataNode> getMetadataNodes() {
+        return metadataNodes;
+    }
+
+    public void remove(NodeCondition condition) {
+        Set<MetadataNode> filteredNodes = new HashSet<>();
+
+        for (MetadataNode node : this.metadataNodes) {
+            if (!condition.isTrue(node)) {
+                filteredNodes.add(node);
+            }
+        }
+
+        this.metadataNodes = filteredNodes;
     }
 
     /**
@@ -43,25 +59,47 @@ public class Profile {
      *
      * @param node - Concrete instance of ProfileNode, which may be ex. FieldPermission node.
      */
-    public void remove(ProfileNode node) {
-        this.profileNodes.remove(node);
+    public void remove(MetadataNode node) {
+        this.metadataNodes.remove(node);
+    }
+
+
+    public void merge(MetadataFile other) {
+        this.metadataNodes.addAll(other.metadataNodes);
+    }
+
+    public void merge(String path) {
+        Profile other = new Profile(path);
+        this.merge(other);
+    }
+
+    public void retainSamePermissions(MetadataFile other) {
+        Set<MetadataNode> filteredNodes = new HashSet<>();
+
+        for (MetadataNode metadataNode : metadataNodes) {
+            if (other.metadataNodes.contains(metadataNode)) {
+                filteredNodes.add(metadataNode);
+            }
+        }
+
+        this.metadataNodes = filteredNodes;
     }
 
     public void saveFile() {
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.newDocument();
-            document.setXmlStandalone(false);
+            document.setXmlStandalone(true);
 
-            Element rootElement = document.createElementNS("http://soap.sforce.com/2006/04/metadata", "Profile");
+            Element rootElement = document.createElementNS("http://soap.sforce.com/2006/04/metadata", getRootElementName());
             document.appendChild(rootElement);
 
             ElementBuilder elementBuilder = new ElementBuilder(document);
 
-            ArrayList<ProfileNode> profileNodes = new ArrayList<>(this.profileNodes);
-            profileNodes.sort(Comparator.naturalOrder());
+            ArrayList<MetadataNode> metadataNodes = new ArrayList<>(this.metadataNodes);
+            metadataNodes.sort(Comparator.naturalOrder());
 
-            for (ProfileNode node : profileNodes) {
+            for (MetadataNode node : metadataNodes) {
                 rootElement.appendChild(node.getElement(elementBuilder));
             }
 
@@ -87,14 +125,16 @@ public class Profile {
             NodeList childNodes = document.getDocumentElement().getChildNodes();
 
             for (int i = 0; i < childNodes.getLength(); i++) {
-                ProfileNode profileNode = ProfileNode.newInstance(childNodes.item(i));
+                MetadataNode metadataNode = MetadataNode.newInstance(childNodes.item(i));
 
-                if (profileNode != null) {
-                    this.profileNodes.add(profileNode);
+                if (metadataNode != null) {
+                    this.metadataNodes.add(metadataNode);
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+    protected abstract String getRootElementName();
 }

@@ -1,11 +1,11 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class ApplicationVisibility extends ProfileNode {
-    private String application;
+public class ApplicationVisibility extends MetadataNode {
+    private String  application;
     private Boolean isDefault;
     private Boolean visible;
 
@@ -25,27 +25,32 @@ public class ApplicationVisibility extends ProfileNode {
     @Override
     protected void initialize(Map<String, String> nodeValues) {
         this.application = nodeValues.get("application");
-        this.isDefault = Boolean.valueOf(nodeValues.get("default"));
         this.visible = Boolean.valueOf(nodeValues.get("visible"));
+        if (nodeValues.get("default") != null) {
+            this.isDefault = Boolean.valueOf(nodeValues.get("default"));
+        }
     }
 
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
-                .addChild("application", application)
-                .addChild("default", isDefault)
-                .addChild("visible", visible)
-                .getElement();
+        builder.createElement(getNodeName());
+        builder.addChild("application", application);
+        if (isDefault != null) {
+            builder.addChild("default", isDefault);
+        }
+        builder.addChild("visible", visible);
+
+        return builder.getElement();
     }
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "applicationVisibilities";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return application;
     }
 }

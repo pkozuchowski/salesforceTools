@@ -1,10 +1,10 @@
-package sfdc.profiles.profileNodes;
+package sfdc.security.securityNodes;
 
 import org.w3c.dom.Element;
 
 import java.util.Map;
 
-public class TabVisibility extends ProfileNode {
+public class TabVisibility extends MetadataNode {
     public final static String
             DefaultOn = "DefaultOn",
             DefaultOff = "DefaultOff",
@@ -40,12 +40,12 @@ public class TabVisibility extends ProfileNode {
     }
 
     @Override
-    protected String getNodeName() {
+    public String getNodeName() {
         return "tabVisibilities";
     }
 
     @Override
-    protected String getMetadataName() {
+    public String getMetadataName() {
         return tab;
     }
 }
