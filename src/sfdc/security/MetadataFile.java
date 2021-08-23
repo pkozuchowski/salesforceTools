@@ -6,6 +6,7 @@ import org.w3c.dom.NodeList;
 import sfdc.security.securityNodes.ElementBuilder;
 import sfdc.security.securityNodes.MetadataNode;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -14,6 +15,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -106,12 +109,21 @@ public abstract class MetadataFile {
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
+            StringWriter writer = new StringWriter();
             transformer.transform(
                     new DOMSource(document),
-                    new StreamResult(new File(path))
+                    new StreamResult(writer)
             );
+
+            String xml = writer.toString().replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            FileWriter myWriter = new FileWriter(path);
+            myWriter.write(xml);
+            myWriter.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
