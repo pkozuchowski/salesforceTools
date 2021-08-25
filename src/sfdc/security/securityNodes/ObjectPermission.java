@@ -44,7 +44,7 @@ public class ObjectPermission extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("allowCreate", allowCreate)
                 .addChild("allowDelete", allowDelete)
                 .addChild("allowEdit", allowEdit)
@@ -56,12 +56,12 @@ public class ObjectPermission extends MetadataNode {
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "objectPermissions";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return sObject;
     }
 }

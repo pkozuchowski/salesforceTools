@@ -28,19 +28,19 @@ public class ClassAccess extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("apexClass", apexClass)
                 .addChild("enabled", enabled)
                 .getElement();
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "classAccesses";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return apexClass;
     }
 }

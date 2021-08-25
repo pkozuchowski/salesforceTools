@@ -17,19 +17,19 @@ public class FlowAccess extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("enabled", enabled)
                 .addChild("flow", flow)
                 .getElement();
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "flowAccesses";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return flow;
     }
 }

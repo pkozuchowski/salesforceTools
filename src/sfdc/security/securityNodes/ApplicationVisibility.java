@@ -34,7 +34,7 @@ public class ApplicationVisibility extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        builder.createElement(getNodeName());
+        builder.createElement(getType());
         builder.addChild("application", application);
         if (isDefault != null) {
             builder.addChild("default", isDefault);
@@ -45,12 +45,12 @@ public class ApplicationVisibility extends MetadataNode {
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "applicationVisibilities";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return application;
     }
 }

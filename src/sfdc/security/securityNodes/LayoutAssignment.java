@@ -32,7 +32,7 @@ public class LayoutAssignment extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        builder.createElement(getNodeName())
+        builder.createElement(getType())
                 .addChild("layout", layout);
 
         if (recordType != "" && recordType != null) {
@@ -43,12 +43,12 @@ public class LayoutAssignment extends MetadataNode {
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "layoutAssignments";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return recordType + layout;
     }
 

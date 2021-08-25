@@ -33,19 +33,19 @@ public class TabVisibility extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("tab", tab)
                 .addChild("visibility", visibility)
                 .getElement();
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "tabVisibilities";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return tab;
     }
 }

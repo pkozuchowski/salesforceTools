@@ -28,7 +28,7 @@ public class UserPermission extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("enabled", enabled)
                 .addChild("name", name)
                 .getElement();
@@ -36,12 +36,12 @@ public class UserPermission extends MetadataNode {
 
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "userPermissions";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return name;
     }
 }

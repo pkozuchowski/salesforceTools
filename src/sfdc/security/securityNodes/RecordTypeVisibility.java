@@ -3,7 +3,6 @@ package sfdc.security.securityNodes;
 import org.w3c.dom.Element;
 
 import java.util.Map;
-import java.util.zip.Deflater;
 
 public class RecordTypeVisibility extends MetadataNode {
     private String  recordType;
@@ -38,7 +37,7 @@ public class RecordTypeVisibility extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        builder.createElement(getNodeName());
+        builder.createElement(getType());
 
         if (isDefault != null) {
             builder.addChild("default", isDefault);
@@ -54,12 +53,12 @@ public class RecordTypeVisibility extends MetadataNode {
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "recordTypeVisibilities";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return recordType;
     }
 }

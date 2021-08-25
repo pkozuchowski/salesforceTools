@@ -11,29 +11,29 @@ public abstract class MetadataNode implements Comparable<MetadataNode> {
 
     @Override
     public int compareTo(MetadataNode o) {
-        if (this.getNodeName() == o.getNodeName()) {
-            return this.getMetadataName().compareTo(o.getMetadataName());
+        if (this.getType() == o.getType()) {
+            return this.getApiName().compareTo(o.getApiName());
         } else {
-            return this.getNodeName().compareTo(o.getNodeName());
+            return this.getType().compareTo(o.getType());
         }
     }
 
 
-    public abstract Element getElement(ElementBuilder builder);
     protected abstract void initialize(Map<String, String> nodeValues);
-    public abstract String getNodeName();
-    public abstract String getMetadataName();
+    public abstract Element getElement(ElementBuilder builder);
+    public abstract String getType();
+    public abstract String getApiName();
 
     @Override
     public int hashCode() {
-        return (getNodeName() + getMetadataName()).hashCode();
+        return (getType() + getApiName()).hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof MetadataNode) {
             MetadataNode other = (MetadataNode) obj;
-            return (getNodeName() + getMetadataName()).equals(other.getNodeName() + other.getMetadataName());
+            return (getType() + getApiName()).equals(other.getType() + other.getApiName());
         } else {
             return false;
         }

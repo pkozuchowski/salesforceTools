@@ -30,7 +30,7 @@ public class FieldPermission extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("editable", editable)
                 .addChild("field", field)
                 .addChild("readable", readable)
@@ -38,12 +38,12 @@ public class FieldPermission extends MetadataNode {
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "fieldPermissions";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return field;
     }
 }

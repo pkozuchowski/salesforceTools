@@ -19,18 +19,18 @@ public class SimpleNode extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .setTextContent(value)
                 .getElement();
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return name;
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return "";
     }
 }

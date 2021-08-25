@@ -17,19 +17,19 @@ public class CustomPermission extends MetadataNode {
 
     @Override
     public Element getElement(ElementBuilder builder) {
-        return builder.createElement(getNodeName())
+        return builder.createElement(getType())
                 .addChild("enabled", enabled)
                 .addChild("name", flow)
                 .getElement();
     }
 
     @Override
-    public String getNodeName() {
+    public String getType() {
         return "customPermissions";
     }
 
     @Override
-    public String getMetadataName() {
+    public String getApiName() {
         return flow;
     }
 }
